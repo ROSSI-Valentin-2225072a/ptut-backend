@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 public class QuoteController {
 
     private final QuoteService quoteService;
-
     private final ModelMapper mapper;
 
     public QuoteController(QuoteService quoteService, ModelMapper mapper) {
