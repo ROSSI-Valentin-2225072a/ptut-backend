@@ -22,5 +22,4 @@ public interface PhotoRepository extends JpaRepository<Photo, Integer> {
     """)
     Photo findByDescription(String description);
 
-    List<Photo> findAll();
 }

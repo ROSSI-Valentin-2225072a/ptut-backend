@@ -6,6 +6,7 @@ import jfc.isis.dashboard.entity.Person;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PersonService {
@@ -36,5 +37,30 @@ public class PersonService {
         personDao.save(newPerson);
 
         return newPerson;
+    }
+
+    @Transactional
+    public Person findByPersonId(Integer personId) {
+        return personDao.findByPersonId(personId);
+    }
+
+    @Transactional
+    public Person findByFirstName(String firstName) {
+        return personDao.findByFirstName(firstName);
+    }
+
+    @Transactional
+    public Person findByLastName(String lastName) {
+        return personDao.findByLastName(lastName);
+    }
+
+    @Transactional
+    public Person findByBirthday(Date birthday) {
+        return personDao.findByBirthday(birthday);
+    }
+
+    @Transactional
+    public List<Person> findAllPersons() {
+        return personDao.findAll();
     }
 }

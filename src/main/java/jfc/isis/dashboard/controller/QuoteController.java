@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/dashboard/quote")
 public class QuoteController {
 
@@ -61,7 +62,7 @@ public class QuoteController {
         }
     }
 
-    @GetMapping("all")
+    @GetMapping
     public ResponseEntity<?> getAllQuotes() {
         try {
             var dashboard = quoteService.findAllQuotes();

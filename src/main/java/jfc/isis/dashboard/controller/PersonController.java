@@ -38,4 +38,75 @@ public class PersonController {
         }
     }
 
+    @GetMapping("id={personId}")
+    public ResponseEntity<?> getPersonById(
+            @RequestParam Integer personId) {
+        try {
+            var dashboard = personService.findByPersonId(personId);
+            var body = mapper.map(dashboard, PersonDTO.class);
+            return ResponseEntity.ok(body);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiErrorDTO(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiErrorDTO("An error occurred: " + e.getMessage()));
+        }
+    }
+
+    @GetMapping("/firstName={firstName}")
+    public ResponseEntity<?> getPersonByFirstName(
+            @RequestParam String firstName) {
+        try {
+            var dashboard = personService.findByFirstName(firstName);
+            var body = mapper.map(dashboard, PersonDTO.class);
+            return ResponseEntity.ok(body);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiErrorDTO(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiErrorDTO("An error occurred: " + e.getMessage()));
+        }
+    }
+
+    @GetMapping("/lastName={lastName}")
+    public ResponseEntity<?> getPersonByLastName(
+            @RequestParam String lastName) {
+        try {
+            var dashboard = personService.findByLastName(lastName);
+            var body = mapper.map(dashboard, PersonDTO.class);
+            return ResponseEntity.ok(body);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiErrorDTO(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiErrorDTO("An error occurred: " + e.getMessage()));
+        }
+    }
+
+    @GetMapping("/birthday={birthday}")
+    public ResponseEntity<?> getPersonByBirthday(
+            @RequestParam Date birthday) {
+        try {
+            var dashboard = personService.findByBirthday(birthday);
+            var body = mapper.map(dashboard, PersonDTO.class);
+            return ResponseEntity.ok(body);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiErrorDTO(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiErrorDTO("An error occurred: " + e.getMessage()));
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllPersons() {
+        try {
+            var dashboard = personService.findAllPersons();
+            var body = dashboard.stream()
+                    .map(d -> mapper.map(d, PersonDTO.class))
+                    .toList();
+            return ResponseEntity.ok(body);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiErrorDTO(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiErrorDTO("An error occurred: " + e.getMessage()));
+        }
+    }
+
 }
