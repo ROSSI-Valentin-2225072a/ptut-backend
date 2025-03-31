@@ -76,4 +76,33 @@ public class PhotoController {
         }
     }
 
+    @DeleteMapping("id={photoId}")
+    public ResponseEntity<?> deletePhotoById(
+            @PathVariable Integer photoId) {
+        try {
+            photoService.deletePhotoById(photoId);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiErrorDTO(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiErrorDTO("An error occurred: " + e.getMessage()));
+        }
+    }
+
+    @PutMapping("id={photoId}")
+    public ResponseEntity<?> updatePhoto(
+            @PathVariable Integer photoId,
+            @RequestParam String photoUrl,
+            @RequestParam String description) {
+        try {
+            var dashboard = photoService.updatePhoto(photoId, photoUrl, description);
+            var body = mapper.map(dashboard, PhotoDTO.class);
+            return ResponseEntity.ok(body);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiErrorDTO(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiErrorDTO("An error occurred: " + e.getMessage()));
+        }
+    }
+
 }

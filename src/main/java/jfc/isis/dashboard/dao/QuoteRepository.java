@@ -9,11 +9,4 @@ import java.util.List;
 
 public interface QuoteRepository extends JpaRepository<Quote, Integer> {
 
-    @Query("""
-        SELECT q.quoteId, q.quote, q.quoteLastUse
-        FROM Quote q
-        WHERE q.quote = :quote
-    """)
-    Quote findByQuote(String quote);
-
 }

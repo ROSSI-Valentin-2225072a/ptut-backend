@@ -63,4 +63,19 @@ public class PersonService {
     public List<Person> findAllPersons() {
         return personDao.findAll();
     }
+
+    @Transactional
+    public void deletePersonById(Integer personId) {
+        personDao.deleteById(personId);
+    }
+
+    @Transactional
+    public Person updatePerson(Integer personId, String firstName, String lastName, Date birthday) {
+        var personToUpdate = personDao.findByPersonId(personId);
+        personToUpdate.setFirstName(firstName);
+        personToUpdate.setLastName(lastName);
+        personToUpdate.setBirthday(birthday);
+        personDao.save(personToUpdate);
+        return personToUpdate;
+    }
 }

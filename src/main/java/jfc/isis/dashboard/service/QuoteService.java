@@ -18,13 +18,9 @@ public class QuoteService {
 
     @Transactional
     public Quote saveQuote(String quote) {
-        var quoteExists = quoteDao.findByQuote(quote);
 
         if(quote == null || quote.isEmpty()) {
             throw new IllegalArgumentException("Quote cannot be empty");
-        }
-        if(quoteExists != null) {
-            throw new IllegalArgumentException("Quote already exists");
         }
 
         var newQuote = new Quote();
@@ -40,13 +36,21 @@ public class QuoteService {
     }
 
     @Transactional
-    public Quote findQuoteByQuote(String quote) {
-        return quoteDao.findByQuote(quote);
+    public List<Quote> findAllQuotes() {
+        return quoteDao.findAll();
     }
 
     @Transactional
-    public List<Quote> findAllQuotes() {
-        return quoteDao.findAll();
+    public void deleteQuoteById(Integer quoteId) {
+        quoteDao.deleteById(quoteId);
+    }
+
+    @Transactional
+    public Quote updateQuote(Integer quoteId, String quote) {
+        var quoteToUpdate = quoteDao.findById(quoteId).orElseThrow(() -> new IllegalArgumentException("Quote not found"));
+        quoteToUpdate.setQuote(quote);
+        quoteDao.save(quoteToUpdate);
+        return quoteToUpdate;
     }
 
 }

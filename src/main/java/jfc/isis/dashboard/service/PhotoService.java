@@ -52,4 +52,18 @@ public class PhotoService {
     public List<Photo> findAllPhotos() {
         return photoDao.findAll();
     }
+
+    @Transactional
+    public void deletePhotoById(Integer photoId) {
+        photoDao.deleteById(photoId);
+    }
+
+    @Transactional
+    public Photo updatePhoto(Integer photoId, String photoUrl, String description) {
+        var photoToUpdate = photoDao.findById(photoId).orElseThrow(() -> new IllegalArgumentException("Photo not found"));
+        photoToUpdate.setPhotoUrl(photoUrl);
+        photoToUpdate.setDescription(description);
+        photoDao.save(photoToUpdate);
+        return photoToUpdate;
+    }
 }

@@ -109,4 +109,34 @@ public class PersonController {
         }
     }
 
+    @DeleteMapping("id={personId}")
+    public ResponseEntity<?> deletePersonById(
+            @RequestParam Integer personId) {
+        try {
+            personService.deletePersonById(personId);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiErrorDTO(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiErrorDTO("An error occurred: " + e.getMessage()));
+        }
+    }
+
+    @PutMapping("id={personId}")
+    public ResponseEntity<?> updatePerson(
+            @RequestParam Integer personId,
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam Date birthday) {
+        try {
+            var dashboard = personService.updatePerson(personId, firstName, lastName, birthday);
+            var body = mapper.map(dashboard, PersonDTO.class);
+            return ResponseEntity.ok(body);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiErrorDTO(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new ApiErrorDTO("An error occurred: " + e.getMessage()));
+        }
+    }
+
 }
