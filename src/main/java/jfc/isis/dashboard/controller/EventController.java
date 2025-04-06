@@ -30,10 +30,10 @@ public class EventController {
     public ResponseEntity<?> saveEvent(
             @RequestParam String nomEvent,
             @RequestParam String description,
-            @RequestParam List<Type> types,
+            @RequestParam Type type,
             @RequestParam Date dateEvent) {
         try {
-            var result = eventService.saveEvent(nomEvent, description, types, dateEvent);
+            var result = eventService.saveEvent(nomEvent, description, type, dateEvent);
             var body = mapper.map(result, EventDTO.class);
             return ResponseEntity.ok(body);
         } catch (IllegalArgumentException e) {
@@ -90,10 +90,10 @@ public class EventController {
             @PathVariable @Positive Integer eventId,
             @RequestParam(required = false) String nomEvent,
             @RequestParam(required = false) String description,
-            @RequestParam(required = false) List<Type> types,
+            @RequestParam(required = false) Type type,
             @RequestParam(required = false) Date dateEvent) {
         try {
-            var result = eventService.updateEvent(eventId, Optional.of(nomEvent),Optional.of(description), Optional.of(types), Optional.of(dateEvent));
+            var result = eventService.updateEvent(eventId, Optional.of(nomEvent),Optional.of(description), Optional.of(type), Optional.of(dateEvent));
             var body = mapper.map(result, EventDTO.class);
             return ResponseEntity.ok(body);
         } catch (IllegalArgumentException e) {

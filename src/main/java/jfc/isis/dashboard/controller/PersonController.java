@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/dashboard/person")
 public class PersonController {
 

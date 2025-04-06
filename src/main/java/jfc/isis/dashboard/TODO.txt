@@ -1,4 +1,0 @@
-Quote : Create v, Read v, Update v, Delete v
-Person : Create v, Read v, Update v, Delete v
-Photo : Create v, Read v, Update v, Delete v
-Event : Create x, Read x, Update x, Delete x

@@ -29,6 +29,6 @@ public class Event {
     @Column(length = 512)
     private String description;
 
-    @ManyToMany
-    private List<Type> type;
+    @OneToOne
+    private Type type;
 }

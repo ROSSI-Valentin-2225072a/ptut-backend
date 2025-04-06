@@ -2,6 +2,7 @@ package jfc.isis.dashboard.service;
 
 import jakarta.transaction.Transactional;
 import jfc.isis.dashboard.dao.EventRepository;
+import jfc.isis.dashboard.dao.TypeRepository;
 import jfc.isis.dashboard.entity.Event;
 import jfc.isis.dashboard.entity.Type;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +37,12 @@ public class EventService {
     }
 
     @Transactional
-    public Event saveEvent(String nomEvent, String description, List<Type> types, Date dateEvent) {
+    public Event saveEvent(String nomEvent, String description, Type type, Date dateEvent) {
         var newEvent = new Event();
         newEvent.setNomEvent(nomEvent);
         newEvent.setDateEvent(dateEvent);
         newEvent.setDescription(description);
-        newEvent.setType(types);
+        newEvent.setType(type);
 
         return eventDao.save(newEvent);
     }
@@ -50,13 +51,13 @@ public class EventService {
     public Event updateEvent(Integer eventId,
                              Optional<String> nomEvent,
                              Optional<String> description,
-                             Optional<List<Type>> types,
+                             Optional<Type> type,
                              Optional<Date> dateEvent) {
         var eventToUpdate = eventDao.findById(eventId).orElseThrow(() -> new IllegalArgumentException("Event not found"));
         nomEvent.ifPresent(eventToUpdate::setNomEvent);
         dateEvent.ifPresent(eventToUpdate::setDateEvent);
         description.ifPresent(eventToUpdate::setDescription);
-        types.ifPresent(eventToUpdate::setType);
+        type.ifPresent(eventToUpdate::setType);
 
         return eventDao.save(eventToUpdate);
     }

@@ -11,5 +11,5 @@ public class EventDTO {
     String eventDate;
     String eventDescription;
     String nomEvent;
-    List<Type> types;
+    Type type;
 }
