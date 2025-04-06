@@ -7,20 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @Enabled
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"ID", "LIBELLE"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"LIBELLE"}))
 public class Type {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
     @NonNull
     private String libelle;
 
