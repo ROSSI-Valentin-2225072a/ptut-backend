@@ -2,7 +2,6 @@ package jfc.isis.dashboard.service;
 
 import jakarta.transaction.Transactional;
 import jfc.isis.dashboard.dao.EventRepository;
-import jfc.isis.dashboard.dao.TypeRepository;
 import jfc.isis.dashboard.entity.Event;
 import jfc.isis.dashboard.entity.Type;
 import org.springframework.http.ResponseEntity;
