@@ -6,6 +6,7 @@ import jfc.isis.dashboard.entity.Photo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PhotoService {
@@ -59,10 +60,10 @@ public class PhotoService {
     }
 
     @Transactional
-    public Photo updatePhoto(Integer photoId, String photoUrl, String description) {
+    public Photo updatePhoto(Integer photoId, Optional<String> photoUrl, Optional<String> description) {
         var photoToUpdate = photoDao.findById(photoId).orElseThrow(() -> new IllegalArgumentException("Photo not found"));
-        photoToUpdate.setPhotoUrl(photoUrl);
-        photoToUpdate.setDescription(description);
+        photoUrl.ifPresent(photoToUpdate::setPhotoUrl);
+        description.ifPresent(photoToUpdate::setDescription);
         photoDao.save(photoToUpdate);
         return photoToUpdate;
     }

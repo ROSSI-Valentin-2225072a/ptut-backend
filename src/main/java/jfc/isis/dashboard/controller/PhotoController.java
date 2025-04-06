@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/dashboard/photo")
@@ -22,10 +24,9 @@ public class PhotoController {
 
     @PostMapping
     public ResponseEntity<?> savePhoto(
-            @RequestParam String photoUrl,
-            @RequestParam String description) {
+            @RequestBody PhotoDTO newPhoto) {
         try {
-            var dashboard = photoService.savePhoto(photoUrl, description);
+            var dashboard = photoService.savePhoto(newPhoto.getPhotoUrl(), newPhoto.getDescription());
             var body = mapper.map(dashboard, PhotoDTO.class);
             return ResponseEntity.ok(body);
         } catch (IllegalArgumentException e) {
@@ -92,10 +93,9 @@ public class PhotoController {
     @PutMapping("id={photoId}")
     public ResponseEntity<?> updatePhoto(
             @PathVariable Integer photoId,
-            @RequestParam String photoUrl,
-            @RequestParam String description) {
+            @RequestBody PhotoDTO updatedPhoto) {
         try {
-            var dashboard = photoService.updatePhoto(photoId, photoUrl, description);
+            var dashboard = photoService.updatePhoto(photoId, Optional.of(updatedPhoto.getPhotoUrl()), Optional.of(updatedPhoto.getDescription()));
             var body = mapper.map(dashboard, PhotoDTO.class);
             return ResponseEntity.ok(body);
         } catch (IllegalArgumentException e) {

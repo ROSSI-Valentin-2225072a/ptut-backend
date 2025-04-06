@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -70,11 +71,11 @@ public class PersonService {
     }
 
     @Transactional
-    public Person updatePerson(Integer personId, String firstName, String lastName, Date birthday) {
+    public Person updatePerson(Integer personId, Optional<String> firstName, Optional<String> lastName, Optional<Date> birthday) {
         var personToUpdate = personDao.findByPersonId(personId);
-        personToUpdate.setFirstName(firstName);
-        personToUpdate.setLastName(lastName);
-        personToUpdate.setBirthday(birthday);
+        firstName.ifPresent(personToUpdate::setFirstName);
+        lastName.ifPresent(personToUpdate::setLastName);
+        birthday.ifPresent(personToUpdate::setBirthday);
         personDao.save(personToUpdate);
         return personToUpdate;
     }

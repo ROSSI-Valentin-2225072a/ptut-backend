@@ -7,7 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -24,12 +26,9 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<?> savePerson(
-            @RequestParam String firstName,
-            @RequestParam String lastName,
-            @RequestParam Date birthday) {
+    public ResponseEntity<?> savePerson(@RequestBody PersonDTO newPerson) {
         try {
-            var dashboard = personService.savePerson(firstName, lastName, birthday);
+            var dashboard = personService.savePerson(newPerson.getFirstName(), newPerson.getLastName(), newPerson.getBirthday());
             var body = mapper.map(dashboard, PersonDTO.class);
             return ResponseEntity.ok(body);
         } catch (IllegalArgumentException e) {
@@ -125,12 +124,12 @@ public class PersonController {
 
     @PutMapping("id={personId}")
     public ResponseEntity<?> updatePerson(
-            @RequestParam Integer personId,
-            @RequestParam String firstName,
-            @RequestParam String lastName,
-            @RequestParam Date birthday) {
+            @RequestBody PersonDTO updatedPerson) {
         try {
-            var dashboard = personService.updatePerson(personId, firstName, lastName, birthday);
+            var dashboard = personService.updatePerson(updatedPerson.getPersonId(),
+                    Optional.of(updatedPerson.getFirstName()),
+                    Optional.of(updatedPerson.getLastName()),
+                    Optional.of(updatedPerson.getBirthday()));
             var body = mapper.map(dashboard, PersonDTO.class);
             return ResponseEntity.ok(body);
         } catch (IllegalArgumentException e) {
