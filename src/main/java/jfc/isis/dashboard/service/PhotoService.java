@@ -19,16 +19,12 @@ public class PhotoService {
 
     @Transactional
     public Photo savePhoto(String photoUrl, String description) {
-        var photoExists = photoDao.findByDescription(description);
 
         if(photoUrl == null || photoUrl.isEmpty()) {
             throw new IllegalArgumentException("Photo URL cannot be empty");
         }
         if(description == null || description.isEmpty()) {
             throw new IllegalArgumentException("Description cannot be empty");
-        }
-        if(photoExists != null) {
-            throw new IllegalArgumentException("Photo already exists");
         }
 
         var newPhoto = new Photo();
@@ -43,11 +39,6 @@ public class PhotoService {
     @Transactional
     public Photo findPhotoById(Integer photoId) {
         return photoDao.findById(photoId).orElseThrow(() -> new IllegalArgumentException("Photo not found"));
-    }
-
-    @Transactional
-    public Photo findPhotoByDescription(String description) {
-        return photoDao.findByDescription(description);
     }
 
     @Transactional

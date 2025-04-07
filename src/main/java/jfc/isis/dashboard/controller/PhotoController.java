@@ -51,20 +51,6 @@ public class PhotoController {
         }
     }
 
-    @GetMapping("/description={description}")
-    public ResponseEntity<?> getPhotoByDescription(
-            @PathVariable String description) {
-        try {
-            var dashboard = photoService.findPhotoByDescription(description);
-            var body = mapper.map(dashboard, PhotoDTO.class);
-            return ResponseEntity.ok(body);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new ApiErrorDTO(e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(new ApiErrorDTO("An error occurred: " + e.getMessage()));
-        }
-    }
-
     @GetMapping
     public ResponseEntity<?> getAllPhotos() {
         try {
