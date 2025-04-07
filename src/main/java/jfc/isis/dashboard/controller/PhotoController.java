@@ -1,5 +1,6 @@
 package jfc.isis.dashboard.controller;
 
+import jakarta.validation.constraints.Positive;
 import jfc.isis.dashboard.DTO.ApiErrorDTO;
 import jfc.isis.dashboard.DTO.PhotoDTO;
 import jfc.isis.dashboard.service.PhotoService;
@@ -38,7 +39,7 @@ public class PhotoController {
 
     @GetMapping("id={photoId}")
     public ResponseEntity<?> getPhotoById(
-            @PathVariable Integer photoId) {
+            @PathVariable @Positive Integer photoId) {
         try {
             var dashboard = photoService.findPhotoById(photoId);
             var body = mapper.map(dashboard, PhotoDTO.class);
@@ -79,7 +80,7 @@ public class PhotoController {
 
     @DeleteMapping("id={photoId}")
     public ResponseEntity<?> deletePhotoById(
-            @PathVariable Integer photoId) {
+            @PathVariable @Positive Integer photoId) {
         try {
             photoService.deletePhotoById(photoId);
             return ResponseEntity.ok().build();
@@ -92,7 +93,7 @@ public class PhotoController {
 
     @PutMapping("id={photoId}")
     public ResponseEntity<?> updatePhoto(
-            @PathVariable Integer photoId,
+            @PathVariable @Positive Integer photoId,
             @RequestBody PhotoDTO updatedPhoto) {
         try {
             var dashboard = photoService.updatePhoto(photoId, Optional.of(updatedPhoto.getPhotoUrl()), Optional.of(updatedPhoto.getDescription()));

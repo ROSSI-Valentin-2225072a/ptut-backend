@@ -1,5 +1,6 @@
 package jfc.isis.dashboard.controller;
 
+import jakarta.validation.constraints.Positive;
 import jfc.isis.dashboard.DTO.ApiErrorDTO;
 import jfc.isis.dashboard.DTO.PersonDTO;
 import jfc.isis.dashboard.service.PersonService;
@@ -7,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.Date;
 import java.util.Optional;
 
@@ -40,7 +40,7 @@ public class PersonController {
 
     @GetMapping("id={personId}")
     public ResponseEntity<?> getPersonById(
-            @RequestParam Integer personId) {
+            @PathVariable @Positive Integer personId) {
         try {
             var dashboard = personService.findByPersonId(personId);
             var body = mapper.map(dashboard, PersonDTO.class);
@@ -54,7 +54,7 @@ public class PersonController {
 
     @GetMapping("/firstName={firstName}")
     public ResponseEntity<?> getPersonByFirstName(
-            @RequestParam String firstName) {
+            @PathVariable String firstName) {
         try {
             var dashboard = personService.findByFirstName(firstName);
             var body = mapper.map(dashboard, PersonDTO.class);
@@ -68,7 +68,7 @@ public class PersonController {
 
     @GetMapping("/lastName={lastName}")
     public ResponseEntity<?> getPersonByLastName(
-            @RequestParam String lastName) {
+            @PathVariable String lastName) {
         try {
             var dashboard = personService.findByLastName(lastName);
             var body = mapper.map(dashboard, PersonDTO.class);
@@ -82,7 +82,7 @@ public class PersonController {
 
     @GetMapping("/birthday={birthday}")
     public ResponseEntity<?> getPersonByBirthday(
-            @RequestParam Date birthday) {
+            @PathVariable Date birthday) {
         try {
             var dashboard = personService.findByBirthday(birthday);
             var body = mapper.map(dashboard, PersonDTO.class);
@@ -111,7 +111,7 @@ public class PersonController {
 
     @DeleteMapping("id={personId}")
     public ResponseEntity<?> deletePersonById(
-            @RequestParam Integer personId) {
+            @PathVariable @Positive Integer personId) {
         try {
             personService.deletePersonById(personId);
             return ResponseEntity.ok().build();
@@ -124,9 +124,11 @@ public class PersonController {
 
     @PutMapping("id={personId}")
     public ResponseEntity<?> updatePerson(
+            @PathVariable @Positive Integer personId,
             @RequestBody PersonDTO updatedPerson) {
         try {
-            var dashboard = personService.updatePerson(updatedPerson.getPersonId(),
+            var dashboard = personService.updatePerson(
+                    personId,
                     Optional.of(updatedPerson.getFirstName()),
                     Optional.of(updatedPerson.getLastName()),
                     Optional.of(updatedPerson.getBirthday()));

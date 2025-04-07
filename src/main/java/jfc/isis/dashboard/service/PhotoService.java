@@ -34,6 +34,7 @@ public class PhotoService {
         var newPhoto = new Photo();
         newPhoto.setPhotoUrl(photoUrl);
         newPhoto.setDescription(description);
+        newPhoto.setPhotoLastUse(java.util.Date.from(java.time.Instant.now()));
         photoDao.save(newPhoto);
 
         return newPhoto;
@@ -61,10 +62,12 @@ public class PhotoService {
 
     @Transactional
     public Photo updatePhoto(Integer photoId, Optional<String> photoUrl, Optional<String> description) {
-        var photoToUpdate = photoDao.findById(photoId).orElseThrow(() -> new IllegalArgumentException("Photo not found"));
+        photoDao.deleteById(photoId);
+
+        var photoToUpdate = new Photo();
         photoUrl.ifPresent(photoToUpdate::setPhotoUrl);
         description.ifPresent(photoToUpdate::setDescription);
-        photoDao.save(photoToUpdate);
-        return photoToUpdate;
+
+        return photoDao.save(photoToUpdate);
     }
 }

@@ -5,6 +5,7 @@ import jfc.isis.dashboard.dao.QuoteRepository;
 import jfc.isis.dashboard.entity.Quote;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,6 +26,7 @@ public class QuoteService {
 
         var newQuote = new Quote();
         newQuote.setQuote(quote);
+        newQuote.setQuoteLastUse(Date.from(java.time.Instant.now()));
         quoteDao.save(newQuote);
 
         return newQuote;
@@ -47,10 +49,13 @@ public class QuoteService {
 
     @Transactional
     public Quote updateQuote(Integer quoteId, String quote) {
-        var quoteToUpdate = quoteDao.findById(quoteId).orElseThrow(() -> new IllegalArgumentException("Quote not found"));
-        quoteToUpdate.setQuote(quote);
-        quoteDao.save(quoteToUpdate);
-        return quoteToUpdate;
+        quoteDao.deleteById(quoteId);
+
+        var newQuote = new Quote();
+        newQuote.setQuote(quote);
+        newQuote.setQuoteLastUse(Date.from(java.time.Instant.now()));
+
+        return quoteDao.save(newQuote);
     }
 
 }

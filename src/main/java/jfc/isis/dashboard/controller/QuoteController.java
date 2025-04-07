@@ -1,5 +1,6 @@
 package jfc.isis.dashboard.controller;
 
+import jakarta.validation.constraints.Positive;
 import jfc.isis.dashboard.DTO.ApiErrorDTO;
 import jfc.isis.dashboard.DTO.QuoteDTO;
 import jfc.isis.dashboard.service.QuoteService;
@@ -21,7 +22,8 @@ public class QuoteController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveQuote(@RequestBody String quote) {
+    public ResponseEntity<?> saveQuote(
+            @RequestBody String quote) {
         try {
             var result = quoteService.saveQuote(quote);
             var body = mapper.map(result, QuoteDTO.class);
@@ -34,7 +36,8 @@ public class QuoteController {
     }
 
     @GetMapping("id={quoteId}")
-    public ResponseEntity<?> getQuoteById(@PathVariable Integer quoteId) {
+    public ResponseEntity<?> getQuoteById(
+            @PathVariable @Positive Integer quoteId) {
         try {
             var result = quoteService.findQuoteById(quoteId);
             var body = mapper.map(result, QuoteDTO.class);
@@ -63,7 +66,7 @@ public class QuoteController {
 
     @DeleteMapping("id={quoteId}")
     public ResponseEntity<?> deleteQuoteById(
-            @PathVariable Integer quoteId) {
+            @PathVariable @Positive Integer quoteId) {
         try {
             quoteService.deleteQuoteById(quoteId);
             return ResponseEntity.ok().build();
@@ -75,7 +78,9 @@ public class QuoteController {
     }
 
     @PutMapping("id={quoteId}")
-    public ResponseEntity<?> updateQuote(@PathVariable Integer quoteId, @RequestBody String quote) {
+    public ResponseEntity<?> updateQuote(
+            @PathVariable @Positive Integer quoteId,
+            @RequestBody String quote) {
         try {
             var result = quoteService.updateQuote(quoteId, quote);
             var body = mapper.map(result, QuoteDTO.class);

@@ -72,11 +72,13 @@ public class PersonService {
 
     @Transactional
     public Person updatePerson(Integer personId, Optional<String> firstName, Optional<String> lastName, Optional<Date> birthday) {
-        var personToUpdate = personDao.findByPersonId(personId);
+        personDao.deleteById(personId);
+
+        var personToUpdate = new Person();
         firstName.ifPresent(personToUpdate::setFirstName);
         lastName.ifPresent(personToUpdate::setLastName);
         birthday.ifPresent(personToUpdate::setBirthday);
-        personDao.save(personToUpdate);
-        return personToUpdate;
+
+        return personDao.save(personToUpdate);
     }
 }

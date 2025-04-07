@@ -52,7 +52,9 @@ public class EventService {
                              Optional<String> description,
                              Optional<Type> type,
                              Optional<Date> dateEvent) {
-        var eventToUpdate = eventDao.findById(eventId).orElseThrow(() -> new IllegalArgumentException("Event not found"));
+        eventDao.deleteById(eventId);
+
+        var eventToUpdate = new Event();
         nomEvent.ifPresent(eventToUpdate::setNomEvent);
         dateEvent.ifPresent(eventToUpdate::setDateEvent);
         description.ifPresent(eventToUpdate::setDescription);
