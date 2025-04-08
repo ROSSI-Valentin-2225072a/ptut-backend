@@ -97,8 +97,8 @@ public class PersonController {
     @GetMapping
     public ResponseEntity<?> getAllPersons() {
         try {
-            var dashboard = personService.findAllPersons();
-            var body = dashboard.stream()
+            var result = personService.findAllPersons();
+            var body = result.stream()
                     .map(d -> mapper.map(d, PersonDTO.class))
                     .toList();
             return ResponseEntity.ok(body);

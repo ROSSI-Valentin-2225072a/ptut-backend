@@ -3,6 +3,7 @@ package jfc.isis.dashboard.controller;
 import jakarta.validation.constraints.Positive;
 import jfc.isis.dashboard.DTO.ApiErrorDTO;
 import jfc.isis.dashboard.DTO.PhotoDTO;
+import jfc.isis.dashboard.DTO.QuoteDTO;
 import jfc.isis.dashboard.service.PhotoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -54,8 +55,10 @@ public class PhotoController {
     @GetMapping
     public ResponseEntity<?> getAllPhotos() {
         try {
-            var dashboard = photoService.findAllPhotos();
-            var body = mapper.map(dashboard, PhotoDTO.class);
+            var result = photoService.findAllPhotos();
+            var body = result.stream()
+                    .map(d -> mapper.map(d, PhotoDTO.class))
+                    .toList();
             return ResponseEntity.ok(body);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new ApiErrorDTO(e.getMessage()));
