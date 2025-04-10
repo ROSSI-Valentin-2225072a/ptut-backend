@@ -7,9 +7,10 @@ import java.util.Date;
 
 @Data
 public class EventDTO {
-    Integer eventId;
-    Date eventDate;
-    String eventDescription;
+    Integer id;
+    Date dateEvent;
+    String description;
     String nomEvent;
+    String lieu;
     Type type;
 }

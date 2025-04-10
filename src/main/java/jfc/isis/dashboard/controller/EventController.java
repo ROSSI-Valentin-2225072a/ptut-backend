@@ -28,7 +28,12 @@ public class EventController {
     @PostMapping
     public ResponseEntity<?> saveEvent(@RequestBody EventDTO newEvent) {
         try {
-            var result = eventService.saveEvent(newEvent.getNomEvent(), newEvent.getEventDescription(), newEvent.getType(), newEvent.getEventDate());
+            var result = eventService.saveEvent(
+                    newEvent.getNomEvent(),
+                    newEvent.getDescription(),
+                    newEvent.getType(),
+                    newEvent.getDateEvent(),
+                    newEvent.getLieu());
             var body = mapper.map(result, EventDTO.class);
             return ResponseEntity.ok(body);
         } catch (IllegalArgumentException e) {
@@ -88,9 +93,10 @@ public class EventController {
             var result = eventService.updateEvent(
                     eventId,
                     Optional.of(updatedEvent.getNomEvent()),
-                    Optional.of(updatedEvent.getEventDescription()),
+                    Optional.of(updatedEvent.getDescription()),
                     Optional.of(updatedEvent.getType()),
-                    Optional.of(updatedEvent.getEventDate()));
+                    Optional.of(updatedEvent.getDateEvent()),
+                    Optional.of(updatedEvent.getLieu()));
             var body = mapper.map(result, EventDTO.class);
             return ResponseEntity.ok(body);
         } catch (IllegalArgumentException e) {

@@ -28,6 +28,10 @@ public class Event {
     @Column(length = 512)
     private String description;
 
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private String lieu;
+
     @OneToOne
     private Type type;
 }

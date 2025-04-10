@@ -36,12 +36,13 @@ public class EventService {
     }
 
     @Transactional
-    public Event saveEvent(String nomEvent, String description, Type type, Date dateEvent) {
+    public Event saveEvent(String nomEvent, String description, Type type, Date dateEvent, String lieu) {
         var newEvent = new Event();
         newEvent.setNomEvent(nomEvent);
         newEvent.setDateEvent(dateEvent);
         newEvent.setDescription(description);
         newEvent.setType(type);
+        newEvent.setLieu(lieu);
 
         return eventDao.save(newEvent);
     }
@@ -51,7 +52,8 @@ public class EventService {
                              Optional<String> nomEvent,
                              Optional<String> description,
                              Optional<Type> type,
-                             Optional<Date> dateEvent) {
+                             Optional<Date> dateEvent,
+                             Optional<String> lieu) {
         eventDao.deleteById(eventId);
 
         var eventToUpdate = new Event();
@@ -59,6 +61,7 @@ public class EventService {
         dateEvent.ifPresent(eventToUpdate::setDateEvent);
         description.ifPresent(eventToUpdate::setDescription);
         type.ifPresent(eventToUpdate::setType);
+        lieu.ifPresent(eventToUpdate::setLieu);
 
         return eventDao.save(eventToUpdate);
     }
