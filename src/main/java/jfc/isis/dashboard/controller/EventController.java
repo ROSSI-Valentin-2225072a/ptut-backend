@@ -3,13 +3,11 @@ package jfc.isis.dashboard.controller;
 import jakarta.validation.constraints.Positive;
 import jfc.isis.dashboard.DTO.ApiErrorDTO;
 import jfc.isis.dashboard.DTO.EventDTO;
-import jfc.isis.dashboard.entity.Type;
 import jfc.isis.dashboard.service.EventService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.Optional;
 
 @RestController
