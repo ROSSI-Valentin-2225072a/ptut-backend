@@ -18,17 +18,17 @@ public class PhotoService {
     }
 
     @Transactional
-    public Photo savePhoto(String photoUrl, String description) {
+    public Photo savePhoto(String photoBase64, String description) {
 
-        if(photoUrl == null || photoUrl.isEmpty()) {
-            throw new IllegalArgumentException("Photo URL cannot be empty");
+        if(photoBase64 == null || photoBase64.isEmpty()) {
+            throw new IllegalArgumentException("Photo base64 cannot be empty");
         }
         if(description == null || description.isEmpty()) {
             throw new IllegalArgumentException("Description cannot be empty");
         }
 
         var newPhoto = new Photo();
-        newPhoto.setPhotoUrl(photoUrl);
+        newPhoto.setPhotoBase64(photoBase64);
         newPhoto.setDescription(description);
         newPhoto.setPhotoLastUse(java.util.Date.from(java.time.Instant.now()));
         photoDao.save(newPhoto);
@@ -52,11 +52,11 @@ public class PhotoService {
     }
 
     @Transactional
-    public Photo updatePhoto(Integer photoId, Optional<String> photoUrl, Optional<String> description) {
+    public Photo updatePhoto(Integer photoId, Optional<String> photoBase64, Optional<String> description) {
         photoDao.deleteById(photoId);
 
         var photoToUpdate = new Photo();
-        photoUrl.ifPresent(photoToUpdate::setPhotoUrl);
+        photoBase64.ifPresent(photoToUpdate::setPhotoBase64);
         description.ifPresent(photoToUpdate::setDescription);
 
         return photoDao.save(photoToUpdate);

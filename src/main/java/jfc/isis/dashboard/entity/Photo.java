@@ -20,7 +20,7 @@ public class Photo {
     @NonNull
     @Basic(optional = false)
     @Column(nullable = false)
-    private String photoUrl;
+    private String photoBase64;
 
     @Basic(optional = false)
     @Column(nullable = false)

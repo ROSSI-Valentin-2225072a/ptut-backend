@@ -10,6 +10,6 @@ public class PhotoDTO implements Serializable {
     Integer photoId;
     Date photoLastUse;
     String description;
-    String photoUrl;
+    String photoBase64;
 
 }
