@@ -29,4 +29,8 @@ public class Photo {
     @Size(max = 512)
     @Column(length = 512)
     private String description;
+
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private String photoName;
 }

@@ -11,5 +11,7 @@ public class PhotoDTO implements Serializable {
     Date photoLastUse;
     String description;
     String photoBase64;
+    String photoName;
+
 
 }

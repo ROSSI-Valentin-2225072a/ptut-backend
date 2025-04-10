@@ -28,7 +28,7 @@ public class PhotoController {
     public ResponseEntity<?> savePhoto(
             @RequestBody PhotoDTO newPhoto) {
         try {
-            var dashboard = photoService.savePhoto(newPhoto.getPhotoBase64(), newPhoto.getDescription());
+            var dashboard = photoService.savePhoto(newPhoto.getPhotoBase64(), newPhoto.getDescription(), newPhoto.getPhotoName());
             var body = mapper.map(dashboard, PhotoDTO.class);
             return ResponseEntity.ok(body);
         } catch (IllegalArgumentException e) {
@@ -85,7 +85,11 @@ public class PhotoController {
             @PathVariable @Positive Integer photoId,
             @RequestBody PhotoDTO updatedPhoto) {
         try {
-            var dashboard = photoService.updatePhoto(photoId, Optional.of(updatedPhoto.getPhotoBase64()), Optional.of(updatedPhoto.getDescription()));
+            var dashboard = photoService.updatePhoto(
+                    photoId,
+                    Optional.of(updatedPhoto.getPhotoBase64()),
+                    Optional.of(updatedPhoto.getDescription()),
+                    Optional.of(updatedPhoto.getPhotoName()));
             var body = mapper.map(dashboard, PhotoDTO.class);
             return ResponseEntity.ok(body);
         } catch (IllegalArgumentException e) {
